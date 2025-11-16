@@ -156,5 +156,12 @@
     "icon": "https://cdn2.steamgriddb.com/icon/ef8ff41b21cbfec973591cf88c54b6b7/32/256x256.png",
     "name": "Super mario Construct",
     "creator": "Luigibonus"
+  },
+  {
+    "id": "game_win7_simu",
+    "url": "https://win7simu.visnalize.com/",
+    "icon": "https://www.google.com/imgres?q=win7%20simu&imgurl=https%3A%2F%2Fwin7simu.visnalize.com%2Ficon-192.png&imgrefurl=https%3A%2F%2Fwin7simu.visnalize.com%2F&docid=Rei8RQCZ3sQm8M&tbnid=aMb9rge1KsK5HM&vet=12ahUKEwjf48PO5_aQAxXBFjQIHZhJB8AQM3oECBoQAA..i&w=192&h=192&hcb=2&ved=2ahUKEwjf48PO5_aQAxXBFjQIHZhJB8AQM3oECBoQAA",
+    "name": "win7 simu",
+    "creator": "viznalize"
   }
 ]
