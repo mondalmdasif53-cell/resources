@@ -151,10 +151,62 @@
     "creator": "Matheus Valadares"
   },
   {
-    "id": "game_super_mario_construct",
-    "url": "https://levelsharesquare.com/html5/supermarioconstruct/",
-    "icon": "https://cdn2.steamgriddb.com/icon/ef8ff41b21cbfec973591cf88c54b6b7/32/256x256.png",
-    "name": "Super mario Construct",
-    "creator": "Luigibonus"
+    /add-game.yaml at 8918d42
+name: Create Game PR from Issue
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'game')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Extract game details from issue
+        id: extract
+        run: |
+          normalize_text() {
+            echo "${{ github.event.issue.body }}" | tr -d '\r'
+          }
+          # Extract game details using awk
+          GAME_URL=$(normalize_text | awk '/^### Game URL$/{getline; getline; print $0}' | xargs)
+          GAME_ICON=$(normalize_text | awk '/^### Game icon$/{getline; getline; print $0}' | xargs)
+          GAME_NAME=$(normalize_text | awk '/^### Game title$/{getline; getline; print $0}' | xargs)
+          GAME_CREATOR=$(normalize_text | awk '/^### Game creator$/{getline; getline; print $0}' | xargs)
+          # Create GAME_ID
+          GAME_ID="game_$(echo "$GAME_NAME" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9_' '_')"
+          GAME_ID=$(echo "$GAME_ID" | sed 's/_*$//')  # Remove trailing underscores if any
+          # Set values to GitHub environment variables
+          echo "GAME_ID=$GAME_ID" >> $GITHUB_ENV
+          echo "GAME_URL=$GAME_URL" >> $GITHUB_ENV
+          echo "GAME_ICON=$GAME_ICON" >> $GITHUB_ENV
+          echo "GAME_NAME=$GAME_NAME" >> $GITHUB_ENV
+          echo "GAME_CREATOR=$GAME_CREATOR" >> $GITHUB_ENV
+      - name: Debug extracted values
+        run: |
+          echo "GAME_URL=${{ env.GAME_URL }}"
+          echo "GAME_ICON=${{ env.GAME_ICON }}"
+          echo "GAME_NAME=${{ env.GAME_NAME }}"
+          echo "GAME_CREATOR=${{ env.GAME_CREATOR }}"
+      - name: Update games.json
+        run: |
+          jq '. + [{"id": "${{ env.GAME_ID }}", "url": "${{ env.GAME_URL }}", "icon": "${{ env.GAME_ICON }}", "name": "${{ env.GAME_NAME }}", "creator": "${{ env.GAME_CREATOR }}"}]' games.json > temp.json && mv temp.json games.json
+      - name: Commit and create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: "Add new game: ${{ env.GAME_NAME }}"
+          body: "Close #${{ github.event.issue.number }} and add the suggested game automatically upon merging."
+          branch: "add-${{ env.GAME_ID }}"
+          delete-branch: true
+          commit-message: "Add game: ${{ env.GAME_NAME }}"
+          base: main
   }
 ]
