@@ -137,24 +137,6 @@
     "creator": "Rovio Entertainment Ltd."
   },
   {
-    "id": "game_my_teardrop",
-    "url": "https://myveryownteardrop.xyz/",
-    "icon": "https://myveryownteardrop.xyz/images/Logo.png",
-    "name": "My teardrop",
-    "creator": "Vendorment"
+    
   },
-  {
-    "id": "game_diep_io",
-    "url": "https://diep.io/",
-    "icon": "https://upload.wikimedia.org/wikipedia/en/e/e2/Diepio_mobile_logo.webp",
-    "name": "diep.io",
-    "creator": "Matheus Valadares"
-  },
-  {
-    "id": "game_super_mario_construct",
-    "url": "https://levelsharesquare.com/html5/supermarioconstruct/",
-    "icon": "https://cdn2.steamgriddb.com/icon/ef8ff41b21cbfec973591cf88c54b6b7/32/256x256.png",
-    "name": "Super mario Construct",
-    "creator": "Luigibonus"
-  }
 ]
